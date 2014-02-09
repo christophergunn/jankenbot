@@ -1,0 +1,16 @@
+syntax: glob
+_ReSharper*
+obj/
+bin/
+*.suo
+*.user
+TestResults/
+*.vsmdi
+Debug/
+debug/
+Release/
+TestResult.xml
+UnitTestErrors.txt
+Game.sln.cache
+ToPackage/*
+*.nupkg
