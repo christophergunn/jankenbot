@@ -10,23 +10,28 @@ namespace Game.Tests.Domain
     [TestFixture]
     public class GameTests
     {
-        [Test]
-        public void CanCreateGame()
+        private Game _game;
+
+        [SetUp]
+        public void PerTestSetup()
         {
-            new Game();
+            _game = new Game();
         }
 
         [Test]
-        [TestCase(Move.Rock, Move.Rock, RoundResult.Neither)]
-        [TestCase(Move.Paper, Move.Paper, RoundResult.Neither)]
-        [TestCase(Move.Scissors, Move.Scissors, RoundResult.Neither)]
-        public void GivenSameMoves_NeitherPlayerWins(Move playerOneMove, Move playerTwoMove, RoundResult expectedResult)
+        public void CanCreateGame()
         {
-            var game = new Game();
+        }
 
-            game.PlayMoves(playerOneMove, playerTwoMove);
+        [Test]
+        [TestCase(Move.Rock)]
+        [TestCase(Move.Paper)]
+        [TestCase(Move.Scissors)]
+        public void GivenSameMoves_NeitherPlayerWins(Move playerOneAndTwoMove)
+        {
+            _game.PlayMoves(playerOneAndTwoMove, playerOneAndTwoMove);
 
-            Assert.That(game.LastResult, Is.EqualTo(expectedResult));
+            Assert.That(_game.LastResult, Is.EqualTo(RoundResult.Neither));
         }
 
         [Test]
@@ -38,11 +43,9 @@ namespace Game.Tests.Domain
         [TestCase(Move.Scissors, Move.Paper, RoundResult.PlayerOneWins)]
         public void GivenStandardMoves_CanDetermineWinner(Move playerOneMove, Move playerTwoMove, RoundResult expectedResult)
         {
-            var game = new Game();
+            _game.PlayMoves(playerOneMove, playerTwoMove);
 
-            game.PlayMoves(playerOneMove, playerTwoMove);
-
-            Assert.That(game.LastResult, Is.EqualTo(expectedResult));
+            Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
     }
 }
