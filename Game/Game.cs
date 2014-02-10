@@ -18,7 +18,8 @@ namespace Game
         Rock,
         Paper,
         Scissors,
-        Dynamite
+        Dynamite,
+        Waterbomb
     }
 
     public class Game
@@ -31,11 +32,33 @@ namespace Game
             } 
             else if (playerOneMove == Move.Dynamite)
             {
-                LastResult = RoundResult.PlayerOneWins;
+                if (playerTwoMove == Move.Waterbomb)
+                {
+                    LastResult = RoundResult.PlayerTwoWins;
+                }
+                else
+                {
+                    LastResult = RoundResult.PlayerOneWins;
+                }
             }
             else if (playerTwoMove == Move.Dynamite)
             {
+                if (playerOneMove == Move.Waterbomb)
+                {
+                    LastResult = RoundResult.PlayerOneWins;
+                }
+                else
+                {
+                    LastResult = RoundResult.PlayerTwoWins;
+                }
+            }
+            else if (playerOneMove == Move.Waterbomb)
+            {
                 LastResult = RoundResult.PlayerTwoWins;
+            }
+            else if (playerTwoMove == Move.Waterbomb)
+            {
+                LastResult = RoundResult.PlayerOneWins;
             }
             else if (playerOneMove == Move.Rock && playerTwoMove == Move.Paper)
             {

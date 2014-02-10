@@ -64,5 +64,23 @@ namespace Game.Tests.Domain
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
+
+
+        [Test]
+        [TestCase(Move.Waterbomb, Move.Paper, RoundResult.PlayerTwoWins)]
+        [TestCase(Move.Waterbomb, Move.Scissors, RoundResult.PlayerTwoWins)]
+        [TestCase(Move.Waterbomb, Move.Rock, RoundResult.PlayerTwoWins)]
+        [TestCase(Move.Waterbomb, Move.Dynamite, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Paper, Move.Waterbomb, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Scissors, Move.Waterbomb, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Rock, Move.Waterbomb, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Dynamite, Move.Waterbomb, RoundResult.PlayerTwoWins)]
+        public void GivenWaterbomb_ItBeatsNothingExceptDynamite(Move playerOneMove, Move playerTwoMove,
+                                                          RoundResult expectedResult)
+        {
+            _game.PlayMoves(playerOneMove, playerTwoMove);
+
+            Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
+        }
     }
 }
