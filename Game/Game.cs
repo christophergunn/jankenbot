@@ -17,7 +17,8 @@ namespace Game
     {
         Rock,
         Paper,
-        Scissors
+        Scissors,
+        Dynamite
     }
 
     public class Game
@@ -28,6 +29,14 @@ namespace Game
             {
                 LastResult = RoundResult.Neither;
             } 
+            else if (playerOneMove == Move.Dynamite)
+            {
+                LastResult = RoundResult.PlayerOneWins;
+            }
+            else if (playerTwoMove == Move.Dynamite)
+            {
+                LastResult = RoundResult.PlayerTwoWins;
+            }
             else if (playerOneMove == Move.Rock && playerTwoMove == Move.Paper)
             {
                 LastResult = RoundResult.PlayerTwoWins;
@@ -54,7 +63,7 @@ namespace Game
             }
         }
 
-        public RoundResult LastResult
+        public RoundResult? LastResult
         {
             get; private set; 
         }

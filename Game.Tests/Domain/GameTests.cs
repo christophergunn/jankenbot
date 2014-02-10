@@ -47,5 +47,22 @@ namespace Game.Tests.Domain
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
+
+        // TODO: dynamite / waterbomb, score tracking
+
+        [Test]
+        [TestCase(Move.Dynamite, Move.Paper, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Dynamite, Move.Scissors, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Dynamite, Move.Rock, RoundResult.PlayerOneWins)]
+        [TestCase(Move.Paper, Move.Dynamite, RoundResult.PlayerTwoWins)]
+        [TestCase(Move.Scissors, Move.Dynamite, RoundResult.PlayerTwoWins)]
+        [TestCase(Move.Rock, Move.Dynamite, RoundResult.PlayerTwoWins)]
+        public void GivenDynamite_ItBeatsAllStandardMoves(Move playerOneMove, Move playerTwoMove,
+                                                          RoundResult expectedResult)
+        {
+            _game.PlayMoves(playerOneMove, playerTwoMove);
+
+            Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
+        }
     }
 }
