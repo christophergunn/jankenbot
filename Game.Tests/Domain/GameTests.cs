@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Game.Tests.Domain
 {
@@ -48,8 +43,6 @@ namespace Game.Tests.Domain
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
 
-        // TODO: dynamite / waterbomb, score tracking
-
         [Test]
         [TestCase(Move.Dynamite, Move.Paper, RoundResult.PlayerOneWins)]
         [TestCase(Move.Dynamite, Move.Scissors, RoundResult.PlayerOneWins)]
@@ -81,6 +74,33 @@ namespace Game.Tests.Domain
             _game.PlayMoves(playerOneMove, playerTwoMove);
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void GivenPlayerOneWins_ScoreIsIncrementedByOne()
+        {
+            _game.PlayMoves(Move.Waterbomb, Move.Dynamite);
+
+            Assert.That(_game.PlayerOneScore, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GivenPlayerTwoWins_ScoreIsIncrementedByOne()
+        {
+            _game.PlayMoves(Move.Rock, Move.Paper);
+
+            Assert.That(_game.PlayerTwoScore, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GivenADraw_NeitherScoreChanges()
+        {
+            int p1 = _game.PlayerOneScore, p2 = _game.PlayerTwoScore;
+
+            _game.PlayMoves(Move.Rock, Move.Rock);
+
+            Assert.That(_game.PlayerOneScore, Is.EqualTo(p1));
+            Assert.That(_game.PlayerTwoScore, Is.EqualTo(p2));
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Game
+﻿namespace Game
 {
     public enum RoundResult
     {
@@ -84,7 +78,18 @@ namespace Game
             {
                 LastResult = RoundResult.PlayerTwoWins;
             }
+            IncrementWinningPlayersScore();
         }
+
+        private void IncrementWinningPlayersScore()
+        {
+            if (LastResult == RoundResult.PlayerOneWins) PlayerOneScore++;
+            if (LastResult == RoundResult.PlayerTwoWins) PlayerTwoScore++;
+        }
+
+        public int PlayerOneScore { get; private set; }
+
+        public int PlayerTwoScore { get; private set; }
 
         public RoundResult? LastResult
         {
