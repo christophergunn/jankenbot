@@ -72,60 +72,34 @@
                 _rollingAccumulator++;
                 return;
             }
-            if (_currentPlayerOneMove == Move.Dynamite)
+
+            var currentRound = RoundResult.PlayerTwoWins;
+            if (_currentPlayerOneMove == Move.Dynamite && _currentPlayerTwoMove != Move.Waterbomb)
             {
-                if (_currentPlayerTwoMove == Move.Waterbomb)
-                {
-                    LastResult = RoundResult.PlayerTwoWins;
-                }
-                else
-                {
-                    LastResult = RoundResult.PlayerOneWins;
-                }
+                currentRound = RoundResult.PlayerOneWins;
             }
-            else if (_currentPlayerTwoMove == Move.Dynamite)
+            else if (_currentPlayerOneMove == Move.Waterbomb && _currentPlayerTwoMove == Move.Dynamite)
             {
-                if (_currentPlayerOneMove == Move.Waterbomb)
-                {
-                    LastResult = RoundResult.PlayerOneWins;
-                }
-                else
-                {
-                    LastResult = RoundResult.PlayerTwoWins;
-                }
+                currentRound = RoundResult.PlayerOneWins;
             }
-            else if (_currentPlayerOneMove == Move.Waterbomb)
+            else if (_currentPlayerTwoMove == Move.Waterbomb && _currentPlayerOneMove != Move.Dynamite)
             {
-                LastResult = RoundResult.PlayerTwoWins;
-            }
-            else if (_currentPlayerTwoMove == Move.Waterbomb)
-            {
-                LastResult = RoundResult.PlayerOneWins;
-            }
-            else if (_currentPlayerOneMove == Move.Rock && _currentPlayerTwoMove == Move.Paper)
-            {
-                LastResult = RoundResult.PlayerTwoWins;
+                currentRound = RoundResult.PlayerOneWins;
             }
             else if (_currentPlayerOneMove == Move.Rock && _currentPlayerTwoMove == Move.Scissors)
             {
-                LastResult = RoundResult.PlayerOneWins;
+                currentRound = RoundResult.PlayerOneWins;
             }
             else if (_currentPlayerOneMove == Move.Paper && _currentPlayerTwoMove == Move.Rock)
             {
-                LastResult = RoundResult.PlayerOneWins;
-            }
-            else if (_currentPlayerOneMove == Move.Paper && _currentPlayerTwoMove == Move.Scissors)
-            {
-                LastResult = RoundResult.PlayerTwoWins;
+                currentRound = RoundResult.PlayerOneWins;
             }
             else if (_currentPlayerOneMove == Move.Scissors && _currentPlayerTwoMove == Move.Paper)
             {
-                LastResult = RoundResult.PlayerOneWins;
+                currentRound = RoundResult.PlayerOneWins;
             }
-            else if (_currentPlayerOneMove == Move.Scissors && _currentPlayerTwoMove == Move.Rock)
-            {
-                LastResult = RoundResult.PlayerTwoWins;
-            }
+
+            LastResult = currentRound;
         }
 
         private void HandleDynamiteStock()
