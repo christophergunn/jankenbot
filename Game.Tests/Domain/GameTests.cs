@@ -102,5 +102,62 @@ namespace Game.Tests.Domain
             Assert.That(_game.PlayerOneScore, Is.EqualTo(p1));
             Assert.That(_game.PlayerTwoScore, Is.EqualTo(p2));
         }
+
+        [Test]
+        public void GivenRoundLimitIsSetButNotReached_GameIsNotFinishedAndFinalStateIsNotSet()
+        {
+            _game.SetRoundLimit(5);
+
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            Assert.That(!_game.IsFinished);
+            Assert.That(_game.FinalState, Is.Null);            
+        }
+
+        [Test] // winning
+        public void GivenRoundLimitIsReached_GameIsMarkedAsFinishedAndFinalStateIsKnown()
+        {
+            _game.SetRoundLimit(5);
+
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+
+            Assert.That(_game.IsFinished);
+            Assert.That(_game.FinalState, Is.EqualTo(RoundResult.PlayerOneWins));
+        }
+
+        //[Test] // expect ex if initialization funcs are called after game play commenced
+        [Test]
+        public void CanSetDynamiteLimit_UsageOfDynamiteWillDecrementPlayersRemainingDynamite()
+        {
+            _game.SetDynamiteLimit(10);
+            Assert.That(_game.PlayerOneRemainingDynamite, Is.EqualTo(10));
+            Assert.That(_game.PlayerTwoRemainingDynamite, Is.EqualTo(10));
+
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            Assert.That(_game.PlayerOneRemainingDynamite, Is.EqualTo(9));
+
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            Assert.That(_game.PlayerTwoRemainingDynamite, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void CanSetDynamiteLimit_WhenReachedWillThrowWaterbomb()
+        {
+            _game.SetDynamiteLimit(2);
+
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+
+            Assert.That(_game.LastResult, Is.EqualTo(RoundResult.PlayerTwoWins));
+            Assert.That(_game.PlayerOneScore, Is.EqualTo(2));
+            Assert.That(_game.PlayerTwoScore, Is.EqualTo(1));
+        }
     }
 }
