@@ -23,6 +23,7 @@
         private int? _dynamiteLimit;
         private Move _currentPlayerOneMove;
         private Move _currentPlayerTwoMove;
+        private int _rollingAccumulator;
 
         public int PlayerOneScore { get; private set; }
 
@@ -52,6 +53,8 @@
 
         public void PlayMoves(Move playerOneMove, Move playerTwoMove)
         {
+            if (IsFinished) return;
+
             _currentPlayerOneMove = playerOneMove;
             _currentPlayerTwoMove = playerTwoMove;
 
@@ -66,8 +69,10 @@
             if (_currentPlayerOneMove == _currentPlayerTwoMove)
             {
                 LastResult = RoundResult.Neither;
+                _rollingAccumulator++;
+                return;
             }
-            else if (_currentPlayerOneMove == Move.Dynamite)
+            if (_currentPlayerOneMove == Move.Dynamite)
             {
                 if (_currentPlayerTwoMove == Move.Waterbomb)
                 {
@@ -160,8 +165,18 @@
 
         private void IncrementWinningPlayersScore()
         {
-            if (LastResult == RoundResult.PlayerOneWins) PlayerOneScore++;
-            if (LastResult == RoundResult.PlayerTwoWins) PlayerTwoScore++;
+            if (LastResult == RoundResult.PlayerOneWins)
+            {
+                PlayerOneScore++;
+                PlayerOneScore += _rollingAccumulator;
+                _rollingAccumulator = 0;
+            }
+            if (LastResult == RoundResult.PlayerTwoWins)
+            {
+                PlayerTwoScore++;
+                PlayerTwoScore += _rollingAccumulator;
+                _rollingAccumulator = 0;
+            }
         }
     }
 }

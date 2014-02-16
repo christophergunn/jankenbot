@@ -99,8 +99,16 @@ namespace Game.Tests.Domain
 
             _game.PlayMoves(Move.Rock, Move.Rock);
 
-            Assert.That(_game.PlayerOneScore, Is.EqualTo(p1));
-            Assert.That(_game.PlayerTwoScore, Is.EqualTo(p2));
+            AssertScoreLine(p1, p2);
+        }
+
+        [Test]
+        public void GivenADrawThePointsRollover()
+        {
+            _game.PlayMoves(Move.Rock, Move.Rock);
+            _game.PlayMoves(Move.Rock, Move.Paper);
+
+            AssertScoreLine(0, 2);
         }
 
         [Test]
@@ -126,11 +134,33 @@ namespace Game.Tests.Domain
             _game.PlayMoves(Move.Dynamite, Move.Rock);
             _game.PlayMoves(Move.Dynamite, Move.Rock);
 
-            Assert.That(_game.IsFinished);
-            Assert.That(_game.FinalState, Is.EqualTo(RoundResult.PlayerOneWins));
+            AssertFinalScores(5, 0, RoundResult.PlayerOneWins);
         }
 
-        //[Test] // expect ex if initialization funcs are called after game play commenced
+        [Test] // winning
+        public void GivenAGameIsFinished_NoFurtherRoundsAreCounted()
+        {
+            _game.SetRoundLimit(2);
+
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+
+            AssertFinalScores(2, 0, RoundResult.PlayerOneWins);
+
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+
+            AssertFinalScores(2, 0, RoundResult.PlayerOneWins);
+        }
+
+        private void AssertFinalScores(int p1Score, int p2Score, RoundResult finalState)
+        {
+            Assert.That(_game.IsFinished);
+            Assert.That(_game.FinalState, Is.EqualTo(finalState));
+            AssertScoreLine(p1Score, p2Score);
+        }
+
         [Test]
         public void CanSetDynamiteLimit_UsageOfDynamiteWillDecrementPlayersRemainingDynamite()
         {
@@ -156,8 +186,15 @@ namespace Game.Tests.Domain
             _game.PlayMoves(Move.Dynamite, Move.Rock);
 
             Assert.That(_game.LastResult, Is.EqualTo(RoundResult.PlayerTwoWins));
-            Assert.That(_game.PlayerOneScore, Is.EqualTo(2));
-            Assert.That(_game.PlayerTwoScore, Is.EqualTo(1));
+            AssertScoreLine(2, 1);
         }
+
+        private void AssertScoreLine(int p1Score, int p2Score)
+        {
+            Assert.That(_game.PlayerOneScore, Is.EqualTo(p1Score));
+            Assert.That(_game.PlayerTwoScore, Is.EqualTo(p2Score));
+        }
+
+        //[Test] // expect ex if initialization funcs are called after game play commenced
     }
 }
