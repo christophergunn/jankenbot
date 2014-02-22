@@ -40,7 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
+    <Compile Include="IMatchMaker.cs" />
+    <Compile Include="IPlayerCommunicationChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentConfiguration.cs" />
+    <Compile Include="TournamentController.cs" />
+    <Compile Include="TournamentPlayer.cs" />
+    <Compile Include="Utilities\EnumerableExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

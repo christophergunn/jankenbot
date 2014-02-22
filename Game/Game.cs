@@ -58,9 +58,9 @@
             _currentPlayerOneMove = playerOneMove;
             _currentPlayerTwoMove = playerTwoMove;
 
-            HandleDynamiteStock();
+            ApplyDynamiteStockLimit();
             SetLastResult();
-            IncrementWinningPlayersScore();
+            ProcessRoundWinner();
             UpdateFinishState();
         }
 
@@ -102,9 +102,10 @@
             LastResult = currentRound;
         }
 
-        private void HandleDynamiteStock()
+        private void ApplyDynamiteStockLimit()
         {
             if (!_dynamiteLimit.HasValue) return;
+
             if (_currentPlayerOneMove == Move.Dynamite && PlayerOneRemainingDynamite == 0)
             {
                 _currentPlayerOneMove = Move.Waterbomb;
@@ -137,7 +138,7 @@
             }
         }
 
-        private void IncrementWinningPlayersScore()
+        private void ProcessRoundWinner()
         {
             if (LastResult == RoundResult.PlayerOneWins)
             {
