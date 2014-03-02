@@ -1,25 +1,18 @@
-using System;
-
 namespace Game
 {
     public class TournamentConfiguration
     {
-        public int NumberOfRounds
+        private static readonly TournamentConfiguration DefaultField = new TournamentConfiguration { DynamiteLimit = 100, NumberOfRounds = 2, TurnsPerRound = 1000 };
+
+        public static TournamentConfiguration Default
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return DefaultField; }
         }
 
-        public int TurnsPerRound
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int NumberOfRounds { get; set; }
 
-        public object DynamiteLimit
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int TurnsPerRound { get; set; }
+
+        public int? DynamiteLimit { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.Utilities
 {
@@ -13,6 +14,20 @@ namespace Game.Utilities
             {
                 invokeThis(item);
             }
+        }
+
+        public static T Second<T>(this IEnumerable<T> target)
+        {
+            if (target == null) return default(T);
+            if (target.Count() <= 1) new InvalidOperationException("Not enough elements.");
+
+            return target.Skip(1).First();
+        }
+
+        public static IEnumerable<List<T>> Partition<T>(this IEnumerable<T> source, Int32 size)
+        {
+            for (int i = 0; i < Math.Ceiling(source.Count() / (Double)size); i++)
+                yield return new List<T>(source.Skip(size * i).Take(size));
         }
     }
 }
