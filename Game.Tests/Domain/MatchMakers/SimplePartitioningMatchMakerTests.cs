@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game.MatchMakers;
 using Game.Utilities;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Game.Tests.Domain.MatchMakers
@@ -12,13 +13,21 @@ namespace Game.Tests.Domain.MatchMakers
     [TestFixture]
     public class SimplePartitioningMatchMakerTests
     {
+        private IPlayerCommunicationChannel _mockCommsChannel = null;
+
+        [SetUp]
+        public void PerTestSetup()
+        {
+            _mockCommsChannel = Substitute.For<IPlayerCommunicationChannel>();
+        }
+
         [Test]
         public void Invoke_ShouldPartitionPlayersToCreateMatches()
         {
             var matchMaker = new SimplePartitioningMatchMaker();
             matchMaker.Invoke(new[] { 
-                new TournamentPlayer("1", null, null), new TournamentPlayer("2", null, null), 
-                new TournamentPlayer("3", null, null), new TournamentPlayer("4", null, null) 
+                new TournamentPlayer("1", null, _mockCommsChannel), new TournamentPlayer("2", null, _mockCommsChannel), 
+                new TournamentPlayer("3", null, _mockCommsChannel), new TournamentPlayer("4", null, _mockCommsChannel) 
             });
 
             Assert.That(matchMaker.Matches.First().Item1.Id, Is.EqualTo("1"));
@@ -33,8 +42,8 @@ namespace Game.Tests.Domain.MatchMakers
         {
             var matchMaker = new SimplePartitioningMatchMaker();
             matchMaker.Invoke(new[] { 
-                new TournamentPlayer("1", null, null), new TournamentPlayer("2", null, null), 
-                new TournamentPlayer("3", null, null)
+                new TournamentPlayer("1", null, _mockCommsChannel), new TournamentPlayer("2", null, _mockCommsChannel), 
+                new TournamentPlayer("3", null, _mockCommsChannel)
             });
         }
     }

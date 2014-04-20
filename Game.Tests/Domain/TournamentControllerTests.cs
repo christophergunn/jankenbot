@@ -62,7 +62,7 @@ namespace Game.Tests.Domain
         {
             var registeredPlayers = CreateAndRegisterSomeRandomPlayers(4);
 
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
 
             Assert.That(_tournament.CurrentRound, Is.Not.Null);
             Assert.That(_tournament.CurrentRound.Players, Is.EquivalentTo(registeredPlayers));
@@ -73,7 +73,7 @@ namespace Game.Tests.Domain
         {
             var registeredPlayers = CreateAndRegisterSomeRandomPlayers(4);
 
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             CreateAndRegisterSomeRandomPlayers(2);
 
             Assert.That(_tournament.CurrentRound, Is.Not.Null);
@@ -81,13 +81,13 @@ namespace Game.Tests.Domain
         }
 
         [Test]
-        public void GivenMultipleRounds_RoundSequenceNumberShouldIncreaseAndPlayersAssignedCorrectly()
+        public void GivenMultipleRounds_RoundSequenceNumberShouldIncrease()
         {
             CreateAndRegisterSomeRandomPlayers(4);
 
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             Assert.That(_tournament.CurrentRound.SequenceNumber, Is.EqualTo(1));
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             Assert.That(_tournament.CurrentRound.SequenceNumber, Is.EqualTo(2));
         }
 
@@ -96,13 +96,13 @@ namespace Game.Tests.Domain
         {
             var registeredPlayers = CreateAndRegisterSomeRandomPlayers(4);
 
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             var lateComers = CreateAndRegisterSomeRandomPlayers(2);
             Assert.That(_tournament.CurrentRound.Players, Is.EquivalentTo(registeredPlayers));
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             var evenLaterComers = CreateAndRegisterSomeRandomPlayers(7);
             Assert.That(_tournament.CurrentRound.Players, Is.EquivalentTo(registeredPlayers.Union(lateComers)));
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             Assert.That(_tournament.CurrentRound.Players, Is.EquivalentTo(registeredPlayers.Union(lateComers).Union(evenLaterComers)));
         }
 
@@ -114,7 +114,7 @@ namespace Game.Tests.Domain
                 ci => new[] { new Tuple<TournamentPlayer, TournamentPlayer>(registeredPlayers[0], registeredPlayers[1]),
                               new Tuple<TournamentPlayer, TournamentPlayer>(registeredPlayers[2], registeredPlayers[3])});
 
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             
             Assert.That(_matchMaker.ReceivedCalls().First().GetArguments().First(), Is.EquivalentTo(registeredPlayers));
             AssertThatPlayersWereInformedOfTheirOpponents();
@@ -130,8 +130,8 @@ namespace Game.Tests.Domain
             var p1 = opponents.Item1;
             var p2 = opponents.Item2;
 
-            p1.Comms.Received(1).Start(p2);
-            p2.Comms.Received(1).Start(p1);
+            p1.Comms.Received(1).InformOfGameAgainst(p2);
+            p2.Comms.Received(1).InformOfGameAgainst(p1);
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace Game.Tests.Domain
         private TournamentPlayer[] SetupAndBeginASixPlayerRound()
         {
             var registeredPlayers = SetupASixPlayerRound();
-            _tournament.BeginRound();
+            _tournament.BeginNewRound();
             return registeredPlayers;
         }
 
@@ -212,7 +212,31 @@ namespace Game.Tests.Domain
         [Test]
         public void GivenAllRoundsArePlayed_TournamentShouldBeMarkedAsFinished()
         {
-            
+            SetupAndBeginASixPlayerRound();
+
+            foreach (var roundNum in Enumerable.Range(1, _tournament.Config.NumberOfRounds))
+            {
+                _tournament.PlayRound();   
+            }
+
+            Assert.That(_tournament.IsFinished, Is.True);
+        }
+
+        [Test]
+        public void PlayGame_ShouldRequestMoveFromEachPlayerOncePerRound()
+        {
+            SetupAndBeginASixPlayerRound();
+
+            var firstGame = _tournament.CurrentRound.Games.First();
+            _tournament.PlayGame(firstGame);
+
+            AssertAllPlayersWereAskedForMoves(firstGame, _tournament.Config.TurnsPerRound);
+        }
+
+        private void AssertAllPlayersWereAskedForMoves(TournamentGame game, int turnsPerRound)
+        {
+            game.PlayerOne.Comms.Received(turnsPerRound).RequestMove();
+            game.PlayerTwo.Comms.Received(turnsPerRound).RequestMove();
         }
 
         private TournamentPlayer[] CreateAndRegisterSomeRandomPlayers(int numberOfPlayers)

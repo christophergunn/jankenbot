@@ -22,6 +22,7 @@ namespace Game
         }
 
         public int SequenceNumber { get { return _sequenceNumber; } }
+        public bool IsFinished { get { return _games.All(g => g.IsFinished); } }
         public IEnumerable<TournamentPlayer> Players { get { return _players; } }
         public IEnumerable<TournamentGame> Games { get { return _games; } }
     }

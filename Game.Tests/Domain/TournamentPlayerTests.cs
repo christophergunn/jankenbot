@@ -13,7 +13,17 @@ namespace Game.Tests.Domain
 
             var tp = new TournamentPlayer(null, null, comms);
 
-            comms.Received(1).Start(tp);
+            comms.Received(1).SetPlayer(tp);
+        }
+
+        [Test]
+        public void Create_ShouldHaveNonNullSCoreObject()
+        {
+            var comms = Substitute.For<IPlayerCommunicationChannel>();
+
+            var tp = new TournamentPlayer(null, null, comms);
+
+            Assert.That(tp.Score, Is.Not.Null);
         }
     }
 }

@@ -51,7 +51,7 @@
             PlayerTwoRemainingDynamite = limit;
         }
 
-        public void PlayMoves(Move playerOneMove, Move playerTwoMove)
+        public void RecordMoves(Move playerOneMove, Move playerTwoMove)
         {
             if (IsFinished) return;
 

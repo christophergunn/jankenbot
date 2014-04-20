@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Game.Utilities;
 
 namespace Game
@@ -9,7 +10,8 @@ namespace Game
     {
         private readonly IMatchMaker _matchMaker;
         private readonly Dictionary<string, TournamentPlayer> _playersMap = new Dictionary<string, TournamentPlayer>();
-        
+        private readonly List<TournamentRound> _previousAndCurrentRounds = new List<TournamentRound>();
+
         public TournamentController(IMatchMaker matchMaker)
         {
             _matchMaker = matchMaker;
@@ -30,31 +32,62 @@ namespace Game
             _playersMap[player.Id] = player;
         }
 
-        public void BeginRound()
+        public void BeginNewRound()
         {
-            CreateCurrentRound();            
+            StoreCurrentRound();
+            if (IsFinished)
+                return;
+
+            CreateNewCurrentRound();            
             _matchMaker.Invoke(CurrentRound.Players);
             CreateGamesForCurrentRound();
             InformPlayersOfOpponents();
         }
 
+        public void PlayRound()
+        {
+            CurrentRound.Games.ForEach(PlayGame);
+        }
+
+        public void PlayGame(TournamentGame game)
+        {
+            while (!game.IsFinished)
+            {
+                var playerOneMovePromise = game.PlayerOne.Comms.RequestMove();
+                var playerTwoMovePromise = game.PlayerTwo.Comms.RequestMove();
+
+                Task.WaitAll(playerOneMovePromise, playerTwoMovePromise);
+
+                var playerOneMove = playerOneMovePromise.Result;
+                var playerTwoMove = playerTwoMovePromise.Result;
+
+                PlayMove(game.PlayerOne, playerOneMove, game.PlayerTwo, playerTwoMove);
+            }
+        }
+
+
         public void PlayMove(TournamentPlayer registeredPlayer1, Move move1, TournamentPlayer registeredPlayer2, Move move2)
         {
             var game = CurrentRound.Games.FirstOrDefault(g => g.PlayerOne.Id == registeredPlayer1.Id || g.PlayerTwo.Id == registeredPlayer1.Id);
-            game.PlayMoves(registeredPlayer1.Id, move1, registeredPlayer2.Id, move2);
-            if (CurrentRound.Games.All(g => g.IsFinished))
+            game.RecordMoves(registeredPlayer1.Id, move1, registeredPlayer2.Id, move2);
+            if (CurrentRound.IsFinished)
             {
                 SetPlayerRoundScores();
-                BeginRound();
+                BeginNewRound();
             }
+        }
+
+        private void StoreCurrentRound()
+        {
+            _previousAndCurrentRounds.Add(CurrentRound);
         }
 
         private void SetPlayerRoundScores()
         {
-            CurrentRound.Games.ForEach(IncrementPlayerScores);
+            CurrentRound.Games.ForEach(SetPlayerScoresFromGame);
         }
 
-        private void IncrementPlayerScores(TournamentGame game)
+        private void SetPlayerScoresFromGame(TournamentGame game)
         {
             if (game.PlayerOneScore > game.PlayerTwoScore)
             {
@@ -88,7 +121,7 @@ namespace Game
             return game;
         }
 
-        private void CreateCurrentRound()
+        private void CreateNewCurrentRound()
         {
             var lastRound = CurrentRound;
             CurrentRound = new TournamentRound(lastRound == null ? 1 : lastRound.SequenceNumber + 1, new List<TournamentPlayer>(Players));
@@ -98,8 +131,19 @@ namespace Game
         {
             foreach (var match in _matchMaker.Matches)
             {
-                match.Item1.Comms.Start(match.Item2);
-                match.Item2.Comms.Start(match.Item1);
+                match.Item1.Comms.InformOfGameAgainst(match.Item2);
+                match.Item2.Comms.InformOfGameAgainst(match.Item1);
+            }
+        }
+
+        public bool IsFinished
+        {
+            get
+            {
+                return
+                    Config != null &&
+                    _previousAndCurrentRounds.Count == Config.NumberOfRounds &&
+                    _previousAndCurrentRounds.All(r => r.IsFinished);
             }
         }
     }

@@ -1,7 +1,14 @@
-﻿namespace Game
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Game
 {
     public interface IPlayerCommunicationChannel
     {
-        void Start(TournamentPlayer p1);
+        void SetPlayer(TournamentPlayer p1);
+
+        void InformOfGameAgainst(TournamentPlayer p1);
+
+        Task<Move> RequestMove();
     }
 }
