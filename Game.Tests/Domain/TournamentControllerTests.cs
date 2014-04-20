@@ -95,6 +95,7 @@ namespace Game.Tests.Domain
         public void GivenMultipleRounds_NewlyRegisteredPlayersWillPartakeInTheNextRound()
         {
             var registeredPlayers = CreateAndRegisterSomeRandomPlayers(4);
+            _tournament.Config.NumberOfRounds = 3;
 
             _tournament.BeginNewRound();
             var lateComers = CreateAndRegisterSomeRandomPlayers(2);

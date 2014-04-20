@@ -79,7 +79,10 @@ namespace Game
 
         private void StoreCurrentRound()
         {
-            _previousAndCurrentRounds.Add(CurrentRound);
+            if (CurrentRound != null)
+            {
+                _previousAndCurrentRounds.Add(CurrentRound);
+            }
         }
 
         private void SetPlayerRoundScores()
