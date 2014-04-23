@@ -35,13 +35,35 @@ namespace Game
         public void BeginNewRound()
         {
             StoreCurrentRound();
+
             if (IsFinished)
                 return;
 
-            CreateNewCurrentRound();            
-            _matchMaker.Invoke(CurrentRound.Players);
+            CreateNewCurrentRound();
             CreateGamesForCurrentRound();
             InformPlayersOfOpponents();
+        }
+
+        private void StoreCurrentRound()
+        {
+            if (CurrentRound != null)
+            {
+                _previousAndCurrentRounds.Add(CurrentRound);
+            }
+        }
+
+        private void CreateNewCurrentRound()
+        {
+            var lastRound = CurrentRound;
+            CurrentRound = new TournamentRound(lastRound == null ? 1 : lastRound.SequenceNumber + 1, new List<TournamentPlayer>(Players));
+        }
+
+        private void CreateGamesForCurrentRound()
+        {
+            _matchMaker.Invoke(CurrentRound.Players);
+            CurrentRound.SetGames(
+                from match in _matchMaker.Matches
+                select CreateGameBetweenOpponents(match));
         }
 
         public void PlayRound()
@@ -77,14 +99,6 @@ namespace Game
             }
         }
 
-        private void StoreCurrentRound()
-        {
-            if (CurrentRound != null)
-            {
-                _previousAndCurrentRounds.Add(CurrentRound);
-            }
-        }
-
         private void SetPlayerRoundScores()
         {
             CurrentRound.Games.ForEach(SetPlayerScoresFromGame);
@@ -109,25 +123,12 @@ namespace Game
             }
         }
 
-        private void CreateGamesForCurrentRound()
-        {
-            CurrentRound.SetGames(
-                from match in _matchMaker.Matches
-                select CreateGameFromMatch(match));
-        }
-
-        private TournamentGame CreateGameFromMatch(Tuple<TournamentPlayer, TournamentPlayer> match)
+        private TournamentGame CreateGameBetweenOpponents(Tuple<TournamentPlayer, TournamentPlayer> match)
         {
             var game = new TournamentGame(match.Item1, match.Item2);
             if (Config.DynamiteLimit.HasValue) game.SetDynamiteLimit(Config.DynamiteLimit.Value);
             game.SetRoundLimit(Config.TurnsPerRound);
             return game;
-        }
-
-        private void CreateNewCurrentRound()
-        {
-            var lastRound = CurrentRound;
-            CurrentRound = new TournamentRound(lastRound == null ? 1 : lastRound.SequenceNumber + 1, new List<TournamentPlayer>(Players));
         }
 
         private void InformPlayersOfOpponents()

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Game.MatchMakers;
 
 namespace Game.App.Console
@@ -21,17 +18,20 @@ namespace Game.App.Console
 
             RegisterPlayers();
 
-
-
             // Begin rounds
             _tournament.BeginNewRound();
 
-            // End game
+            foreach (var roundNum in Enumerable.Range(1, _tournament.Config.NumberOfRounds))
+            {
+                _tournament.PlayRound();
+            }
+
+            // End game - print scores
         }
 
         private static void RegisterPlayers()
         {
-            ConsoleUi.WriteText("Register players!");
+            ConsoleUi.WriteText("Register players!" + Environment.NewLine);
             bool registerMore = true;
             while (registerMore)
             {
@@ -41,10 +41,9 @@ namespace Game.App.Console
                 var consoleCommChannel = new ConsoleCommChannel();
                 _tournament.RegisterPlayer(new TournamentPlayer(id, name, consoleCommChannel));
 
-
                 ConsoleUi.WriteText(string.Format("Registered player \"{0}\" with auto-ID \"{1}\".", name, id));
                 char readValue = ConsoleUi.WriteTextThenReadKey("Do you want to add another player (Y/n)?");
-                registerMore = (readValue == 'Y' || readValue == 'y');
+                registerMore = (readValue == 'Y' || readValue == 'y' || readValue == (char)13);
             }
         }
 

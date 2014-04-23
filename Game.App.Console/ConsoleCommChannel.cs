@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Game.App.Console
 {
@@ -13,9 +14,35 @@ namespace Game.App.Console
 
         public void InformOfGameAgainst(TournamentPlayer p1)
         {
-            ConsoleUi.WriteText("PLAYER-" + _player.Name + "-CONSOLE: your opponent for this round is " + p1.Name + ".");
+            ConsoleUi.WriteText(CreatePlayerPrefix() + "your opponent for this round is " + p1.Name + ".");
         }
 
-        public event EventHandler MoveRecieved;
+        private Dictionary<char, Move> _charToMoveMapping = new Dictionary<char, Move>
+        {
+            {'r', Move.Rock},
+            {'p', Move.Paper},
+            {'s', Move.Scissors},
+            {'d', Move.Dynamite},
+            {'w', Move.Waterbomb}
+        };
+
+        public Task<Move> RequestMove()
+        {
+            char moveChar = ConsoleUi.WriteTextThenReadKey(
+CreatePlayerPrefix() + @"please select your move: 
+    r - Rock
+    p - Paper
+    s - Scissors
+    d - Dynamite
+    w - Waterbomb
+");
+
+            return Task.FromResult(_charToMoveMapping[moveChar]);
+        }
+
+        private string CreatePlayerPrefix()
+        {
+            return string.Format("PLAYER-{0}-CONSOLE: ", _player.Name);
+        }
     }
 }
