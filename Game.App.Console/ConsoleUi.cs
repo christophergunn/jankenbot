@@ -6,7 +6,7 @@ namespace Game.App.Console
     {
         public static char WriteTextThenReadKey(string text)
         {
-            WriteText(text);
+            WriteTextLine(text);
             return System.Console.ReadKey().KeyChar;
         }
 
@@ -18,12 +18,18 @@ namespace Game.App.Console
             return Int32.Parse(text);
         }
 
+        public static void PrintExitMessageAndWait()
+        {
+            WriteTextLine("Press any key to exit...");
+            System.Console.ReadKey(true);
+        }
+
         public static string ReadText()
         {
             return System.Console.In.ReadLine();
         }
 
-        public static void WriteText(string text)
+        public static void WriteTextLine(string text)
         {
             System.Console.Out.WriteLine(text);
         }

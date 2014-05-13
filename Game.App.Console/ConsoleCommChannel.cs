@@ -14,7 +14,7 @@ namespace Game.App.Console
 
         public void InformOfGameAgainst(TournamentPlayer p1)
         {
-            ConsoleUi.WriteText(CreatePlayerPrefix() + "your opponent for this round is " + p1.Name + ".");
+            ConsoleUi.WriteTextLine(CreatePlayerPrefix() + "your opponent for this round is " + p1.Name + ".");
         }
 
         private Dictionary<char, Move> _charToMoveMapping = new Dictionary<char, Move>
@@ -36,8 +36,10 @@ CreatePlayerPrefix() + @"please select your move:
     d - Dynamite
     w - Waterbomb
 ");
+            var move = _charToMoveMapping[moveChar];
+            ConsoleUi.WriteTextLine(string.Format(" - {0} recorded.", move));
 
-            return Task.FromResult(_charToMoveMapping[moveChar]);
+            return Task.FromResult(move);
         }
 
         private string CreatePlayerPrefix()

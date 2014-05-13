@@ -9,7 +9,7 @@ namespace Game
     public class TournamentController
     {
         private readonly IMatchMaker _matchMaker;
-        private readonly Dictionary<string, TournamentPlayer> _playersMap = new Dictionary<string, TournamentPlayer>();
+        private readonly Dictionary<string, TournamentPlayer> _playerIdToPlayerMap = new Dictionary<string, TournamentPlayer>();
         private readonly List<TournamentRound> _previousAndCurrentRounds = new List<TournamentRound>();
 
         public TournamentController(IMatchMaker matchMaker)
@@ -18,7 +18,7 @@ namespace Game
             Config = TournamentConfiguration.Default;
         }
 
-        public IEnumerable<TournamentPlayer> Players { get { return _playersMap.Values; } }
+        public IEnumerable<TournamentPlayer> Players { get { return _playerIdToPlayerMap.Values; } }
         public TournamentRound CurrentRound { get; private set; }
         public TournamentConfiguration Config { get; private set; }
 
@@ -29,7 +29,7 @@ namespace Game
 
         public void RegisterPlayer(TournamentPlayer player)
         {
-            _playersMap[player.Id] = player;
+            _playerIdToPlayerMap[player.Id] = player;
         }
 
         public void BeginNewRound()
@@ -131,6 +131,8 @@ namespace Game
             return game;
         }
 
+        // TODO: really this should not be the responsibility of the Tournament(Controller), BeginNewRound should not call this
+        // and callee should
         private void InformPlayersOfOpponents()
         {
             foreach (var match in _matchMaker.Matches)
