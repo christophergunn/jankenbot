@@ -14,7 +14,7 @@
     <RootNamespace>Game.WebApp</RootNamespace>
     <AssemblyName>Game.WebApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.0.22.0\lib\net40\Nancy.dll</HintPath>
@@ -67,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\GamePlay.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Logging\UnhandledExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +96,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>49191</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51769/</IISUrl>
+          <IISUrl>http://localhost/Game.WebApp</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

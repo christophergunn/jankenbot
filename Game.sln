@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.Tests", "Game.Tests\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.App.Console", "Game.App.Console\Game.App.Console.csproj", "{3CD50B0F-E79D-458D-BA0C-492718C17589}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.WebApp.Client", "Game.WebApp.Client\Game.WebApp.Client.csproj", "{FEBA219A-9924-4D04-9568-63DDC7CD0E22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.WebApp.Client.Tests", "Game.WebApp.Client.Tests\Game.WebApp.Client.Tests.csproj", "{970DBBB4-EC32-4D71-9C3C-26CE551F1131}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{3CD50B0F-E79D-458D-BA0C-492718C17589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD50B0F-E79D-458D-BA0C-492718C17589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD50B0F-E79D-458D-BA0C-492718C17589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBA219A-9924-4D04-9568-63DDC7CD0E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEBA219A-9924-4D04-9568-63DDC7CD0E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEBA219A-9924-4D04-9568-63DDC7CD0E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEBA219A-9924-4D04-9568-63DDC7CD0E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{970DBBB4-EC32-4D71-9C3C-26CE551F1131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970DBBB4-EC32-4D71-9C3C-26CE551F1131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970DBBB4-EC32-4D71-9C3C-26CE551F1131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970DBBB4-EC32-4D71-9C3C-26CE551F1131}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
