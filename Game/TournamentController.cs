@@ -10,6 +10,7 @@ namespace Game
     {
         private readonly IMatchMaker _matchMaker;
         private readonly Dictionary<string, TournamentPlayer> _playerIdToPlayerMap = new Dictionary<string, TournamentPlayer>();
+        private readonly Dictionary<string, IPlayerCommunicationChannel> _playerIdToCommsMapping = new Dictionary<string, IPlayerCommunicationChannel>();
         private readonly List<TournamentRound> _previousAndCurrentRounds = new List<TournamentRound>();
 
         public TournamentController(IMatchMaker matchMaker)
@@ -30,6 +31,7 @@ namespace Game
         public void RegisterPlayer(TournamentPlayer player)
         {
             _playerIdToPlayerMap[player.Id] = player;
+            _playerIdToCommsMapping[player.Id] = player.Comms;
         }
 
         public void BeginNewRound()
@@ -137,8 +139,8 @@ namespace Game
         {
             foreach (var match in _matchMaker.Matches)
             {
-                match.Item1.Comms.InformOfGameAgainst(match.Item2);
-                match.Item2.Comms.InformOfGameAgainst(match.Item1);
+                _playerIdToCommsMapping[match.Item1.Id].InformOfGameAgainst(match.Item2);
+                _playerIdToCommsMapping[match.Item2.Id].InformOfGameAgainst(match.Item1);
             }
         }
 

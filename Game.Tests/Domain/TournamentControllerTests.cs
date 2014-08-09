@@ -23,10 +23,10 @@ namespace Game.Tests.Domain
         [Test]
         public void CanRegisterPlayers_AndRetrieveTheirDetailsLater()
         {
-            var playerOneProxy = Substitute.For<IPlayerCommunicationChannel>();
             var playerOneName = "Alex";
             var playerOneId = Guid.NewGuid().ToString();
-            var playerOne = new TournamentPlayer(playerOneId, playerOneName, playerOneProxy);
+            var playerOne = new TournamentPlayer(playerOneId, playerOneName);
+            playerOne.Comms = Substitute.For<IPlayerCommunicationChannel>();
 
             _tournament.RegisterPlayer(playerOne);
 
@@ -38,13 +38,14 @@ namespace Game.Tests.Domain
         [Test]
         public void GivenTheSamePlayerIdIsRegisteredMultipleTimes_ThenTheNameIsUpdated()
         {
-            var playerOneProxy = Substitute.For<IPlayerCommunicationChannel>();
             var playerOneName = "Alex";
             var playerOneId = Guid.NewGuid().ToString();
-            var playerOne = new TournamentPlayer(playerOneId, playerOneName, playerOneProxy);
+            var playerOne = new TournamentPlayer(playerOneId, playerOneName);
+            playerOne.Comms = Substitute.For<IPlayerCommunicationChannel>();
 
             _tournament.RegisterPlayer(playerOne);
-            var playerOneSecondTime = new TournamentPlayer(playerOneId, "Bob", playerOneProxy);
+            var playerOneSecondTime = new TournamentPlayer(playerOneId, "Bob");
+            playerOneSecondTime.Comms = Substitute.For<IPlayerCommunicationChannel>();
             _tournament.RegisterPlayer(playerOneSecondTime);
 
             Assert.That(_tournament.Players.Count(), Is.EqualTo(1));
@@ -243,7 +244,7 @@ namespace Game.Tests.Domain
         private TournamentPlayer[] CreateAndRegisterSomeRandomPlayers(int numberOfPlayers)
         {
             var randomPlayers = CreateSomeRandomPlayers(numberOfPlayers);
-            randomPlayers.ForEach(_tournament.RegisterPlayer);
+            randomPlayers.ForEach(kvp => _tournament.RegisterPlayer(kvp));
             return randomPlayers;
         }
 
@@ -255,7 +256,7 @@ namespace Game.Tests.Domain
         private TournamentPlayer CreateRandomPlayer()
         {
             var id = Guid.NewGuid().ToString();
-            return new TournamentPlayer(id, "Name - " + id, Substitute.For<IPlayerCommunicationChannel>());
+            return new TournamentPlayer(id, "Name - " + id) { Comms = Substitute.For<IPlayerCommunicationChannel>() };
         }
     }
 }

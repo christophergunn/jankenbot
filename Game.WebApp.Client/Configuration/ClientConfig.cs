@@ -1,4 +1,4 @@
-﻿namespace Game.WebApp.Client
+namespace Game.WebApp.Client.Configuration
 {
     public class ClientConfig
     {

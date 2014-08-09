@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Game.WebApp.Client.Configuration;
 
 namespace Game.WebApp.Client
 {
@@ -30,11 +31,12 @@ namespace Game.WebApp.Client
 
         public bool IsRegistered { get; private set; }
 
-        public void Register(string id, string name)
+        public void Register()
         {
             using (var client = new WebClient())
             {
-                client.UploadValues(GetServerUrl(string.Format("register/{0}/{1}", id, name)), new NameValueCollection());
+                //client.UploadValues(GetServerUrl(string.Format("register/{0}/{1}", id, name)), new NameValueCollection());
+                client.UploadValues(GetServerUrl("register"), new NameValueCollection { { "id", _id }, { "name", _name } });
                 IsRegistered = true;
             }
         }

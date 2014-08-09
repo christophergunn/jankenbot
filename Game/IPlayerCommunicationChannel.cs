@@ -5,9 +5,7 @@ namespace Game
 {
     public interface IPlayerCommunicationChannel
     {
-        void SetPlayer(TournamentPlayer p1);
-
-        void InformOfGameAgainst(TournamentPlayer p1);
+        void InformOfGameAgainst(TournamentPlayer opponent);
 
         Task<Move> RequestMove();
     }

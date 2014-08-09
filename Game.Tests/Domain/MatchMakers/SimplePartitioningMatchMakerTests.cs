@@ -26,8 +26,8 @@ namespace Game.Tests.Domain.MatchMakers
         {
             var matchMaker = new SimplePartitioningMatchMaker();
             matchMaker.Invoke(new[] { 
-                new TournamentPlayer("1", null, _mockCommsChannel), new TournamentPlayer("2", null, _mockCommsChannel), 
-                new TournamentPlayer("3", null, _mockCommsChannel), new TournamentPlayer("4", null, _mockCommsChannel) 
+                new TournamentPlayer("1", null), new TournamentPlayer("2", null), 
+                new TournamentPlayer("3", null), new TournamentPlayer("4", null) 
             });
 
             Assert.That(matchMaker.Matches.First().Item1.Id, Is.EqualTo("1"));
@@ -42,8 +42,8 @@ namespace Game.Tests.Domain.MatchMakers
         {
             var matchMaker = new SimplePartitioningMatchMaker();
             matchMaker.Invoke(new[] { 
-                new TournamentPlayer("1", null, _mockCommsChannel), new TournamentPlayer("2", null, _mockCommsChannel), 
-                new TournamentPlayer("3", null, _mockCommsChannel)
+                new TournamentPlayer("1", null), new TournamentPlayer("2", null), 
+                new TournamentPlayer("3", null)
             });
         }
     }

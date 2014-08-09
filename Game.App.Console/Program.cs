@@ -41,8 +41,10 @@ namespace Game.App.Console
                 ConsoleUi.WriteTextLine("Please enter player name: ");
                 var name = ConsoleUi.ReadText();
                 var id = Guid.NewGuid().ToString();
-                var consoleCommChannel = new ConsoleCommChannel();
-                _tournament.RegisterPlayer(new TournamentPlayer(id, name, consoleCommChannel));
+                var player = new TournamentPlayer(id, name);
+                var consoleCommChannel = new ConsoleCommChannel(player);
+                player.Comms = consoleCommChannel;
+                _tournament.RegisterPlayer(player);
 
                 ConsoleUi.WriteTextLine(string.Format("Registered player \"{0}\" with auto-ID \"{1}\".", name, id));
                 char readValue = ConsoleUi.WriteTextThenReadKey("Do you want to add another player (Y/n)?");
