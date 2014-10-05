@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="EdwardScissorHands.cs" />
     <Compile Include="IBotAi.cs" />
+    <Compile Include="ImJustHereToMakeUpTheNumbers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

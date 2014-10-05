@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Game.HouseBots;
 using Game.WebApp.Api;
 using Game.WebApp.Configuration;
 
@@ -9,6 +11,8 @@ namespace Game.WebApp.Controller
         private readonly IOutgoingPlayerChannelFactory _channelFactory;
         private readonly IApplicationConfiguration _applicationConfiguration;
         private readonly IActionScheduler _actionScheduler;
+
+        private readonly Type[] _validBotTypes = new[] { typeof(HouseBots.EdwardScissorHands) };
 
         public bool IsRunning 
         {
@@ -32,12 +36,12 @@ namespace Game.WebApp.Controller
         }
 
         public GameController(
-            TournamentController tournament, 
+            ITournamentPersistence tournamentPersistence, 
             IOutgoingPlayerChannelFactory channelFactory, 
             IApplicationConfiguration applicationConfiguration,
             IActionScheduler actionScheduler)
         {
-            Tournament = tournament;
+            Tournament = tournamentPersistence.GetController();
             _channelFactory = channelFactory;
             _applicationConfiguration = applicationConfiguration;
             _actionScheduler = actionScheduler;
@@ -62,8 +66,16 @@ namespace Game.WebApp.Controller
 
         private void RegisterHouseBots()
         {
-            var edwards = new HouseBots.EdwardScissorHands();
-            Tournament.RegisterPlayer(new TournamentPlayer(Guid.NewGuid().ToString(), edwards.Name) { Comms = _channelFactory.CreateForBot(edwards)});
+            foreach (var validBotType in _validBotTypes)
+            {
+                RegisterBot(validBotType);
+            }
+        }
+
+        private void RegisterBot(Type validBotType)
+        {
+            var botAi = (IBotAi)Activator.CreateInstance(validBotType);
+            Tournament.RegisterPlayer(new TournamentPlayer(Guid.NewGuid().ToString(), botAi.Name) { Comms = _channelFactory.CreateForBot(botAi) });
         }
 
         private void CloseRegistrationAndBeginRounds()
@@ -74,7 +86,16 @@ namespace Game.WebApp.Controller
         private void PlayFirstRoundAndScheduleNext()
         {
             CurrentState = State.RunningRound;
+            BalancePlayerCountWithAdditionalHouseBots();
             PlayRoundAndScheduleNext();
+        }
+
+        private void BalancePlayerCountWithAdditionalHouseBots()
+        {
+            if (Tournament.Players.Count() % 2 != 0)
+            {
+                RegisterBot(typeof(ImJustHereToMakeUpTheNumbers));
+            }
         }
 
         private void PlayRoundAndScheduleNext()

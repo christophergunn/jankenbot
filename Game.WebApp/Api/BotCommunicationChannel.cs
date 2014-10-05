@@ -15,7 +15,7 @@ namespace Game.WebApp.Api
 
         public void InformOfGameAgainst(TournamentPlayer opponent, int numberOfTurns, int dynamiteLimit)
         {
-            throw new NotImplementedException();
+            _bot.InformOfGameAgainst(opponent, numberOfTurns, dynamiteLimit);
         }
 
         public Task<Move> RequestMove()
