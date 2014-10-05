@@ -132,8 +132,8 @@ namespace Game.Tests.Domain
             var p1 = opponents.Item1;
             var p2 = opponents.Item2;
 
-            p1.Comms.Received(1).InformOfGameAgainst(p2, TournamentConfiguration.Default.NumberOfRounds, TournamentConfiguration.Default.DynamiteLimit ?? 0);
-            p2.Comms.Received(1).InformOfGameAgainst(p1, TournamentConfiguration.Default.NumberOfRounds, TournamentConfiguration.Default.DynamiteLimit ?? 0);
+            p1.Comms.Received(1).InformOfGameAgainst(p2, TournamentConfiguration.Default.TurnsPerRound, TournamentConfiguration.Default.DynamiteLimit ?? 0);
+            p2.Comms.Received(1).InformOfGameAgainst(p1, TournamentConfiguration.Default.TurnsPerRound, TournamentConfiguration.Default.DynamiteLimit ?? 0);
         }
 
         [Test]
