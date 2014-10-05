@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Game.MatchMakers;
 using Game.WebApp.Api;
 using Game.WebApp.Configuration;
 
@@ -19,7 +15,7 @@ namespace Game.WebApp.Controller
             get
             {
                 return CurrentState == State.RegistrationPhase || CurrentState == State.InBetweenRounds ||
-                       CurrentState == State.RunningRounds;
+                       CurrentState == State.RunningRound;
             }
         }
 
@@ -30,7 +26,7 @@ namespace Game.WebApp.Controller
         {
             NotStarted,
             RegistrationPhase,
-            RunningRounds,
+            RunningRound,
             InBetweenRounds,
             Complete
         }
@@ -49,8 +45,8 @@ namespace Game.WebApp.Controller
 
         public void Register(string id, string name, string ip)
         {
-            _tournament.RegisterPlayer(
-                new TournamentPlayer(id, name) { Comms = _channelFactory.CreateFromIp(ip) });
+            Tournament.RegisterPlayer(
+                new TournamentPlayer(id, name) { Comms = _channelFactory.CreateFromHttpEndpoint(ip) });
         }
 
         public void Start()
@@ -59,17 +55,25 @@ namespace Game.WebApp.Controller
             CurrentState = State.RegistrationPhase;
 
             Tournament.Setup(new TournamentConfiguration { DynamiteLimit = _applicationConfiguration.DynamiteLimit, NumberOfRounds = _applicationConfiguration.NumberOfRounds, TurnsPerRound = _applicationConfiguration.TurnsPerRound });
-            RegisterBots();
+            RegisterHouseBots();
 
             _actionScheduler.ScheduleEvent(CloseRegistrationAndBeginRounds, TimeSpan.FromMinutes(_applicationConfiguration.RegistrationPeriodMins));
         }
 
-        private void RegisterBots()
+        private void RegisterHouseBots()
         {
+            var edwards = new HouseBots.EdwardScissorHands();
+            Tournament.RegisterPlayer(new TournamentPlayer(Guid.NewGuid().ToString(), edwards.Name) { Comms = _channelFactory.CreateForBot(edwards)});
         }
 
         private void CloseRegistrationAndBeginRounds()
         {
+            PlayFirstRoundAndScheduleNext();
+        }
+
+        private void PlayFirstRoundAndScheduleNext()
+        {
+            CurrentState = State.RunningRound;
             PlayRoundAndScheduleNext();
         }
 
@@ -77,7 +81,12 @@ namespace Game.WebApp.Controller
         {
             PlayRound();
             if (CurrentState != State.Complete)
-                _actionScheduler.ScheduleEvent(PlayRoundAndScheduleNext, _applicationConfiguration.GetInterRoundBreak(Tournament.CurrentRound.SequenceNumber));
+            {
+                CurrentState = State.InBetweenRounds;
+                _actionScheduler.ScheduleEvent(PlayRoundAndScheduleNext,
+                                               _applicationConfiguration.GetInterRoundBreak(
+                                                   Tournament.CurrentRound.SequenceNumber));
+            }
         }
 
         private void PlayRound()
@@ -85,7 +94,7 @@ namespace Game.WebApp.Controller
             if (Tournament.IsFinished)
                 return;
 
-            CurrentState = State.RunningRounds;
+            CurrentState = State.RunningRound;
             Tournament.BeginNewRound();
             Tournament.PlayRound();
 

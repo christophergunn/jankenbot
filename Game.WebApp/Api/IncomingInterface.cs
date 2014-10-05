@@ -13,12 +13,15 @@ namespace Game.WebApp.Api
         {
             _controller = controller;
 
-            Get["/"] = _ => "Nice one.";
+            Get["/"] = _ => "Nice one. You've navigated to this JankenBot server.";
 
             Get["/start"] = _ =>
                 {
                     _logger.DebugFormat("Start game called.");
+                    if (_controller.IsRunning) 
+                        return "Game already started.";
                     _controller.Start();
+                    return "Game started.";
                 };
 
             Get["/register/{id}/{name}"] = o =>

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using Game.WebApp.Api;
+using Game.WebApp.Configuration;
 using Game.WebApp.Controller;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -8,10 +10,25 @@ namespace Game.WebApp
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
+        private Lazy<TournamentPersistence> _persistence = new Lazy<TournamentPersistence>();
+        private Lazy<OutgoingPlayerChannelFactory> _outgoingChannelFactory = new Lazy<OutgoingPlayerChannelFactory>();
+
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             log4net.Config.XmlConfigurator.Configure();
-            RegisterInstances(container, new[] { new InstanceRegistration(typeof(GameController), GameController.GetSingleton()) });
+        }
+
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            // call 'base' first - calling it later would override any of our customisations
+            base.ConfigureApplicationContainer(container);
+
+            container.Register<ITournamentPersistence, TournamentPersistence>().AsSingleton();
+            container.Register<IOutgoingPlayerChannelFactory, OutgoingPlayerChannelFactory>().AsSingleton();
+            container.Register<IApplicationConfiguration, ApplicationConfiguration>().AsSingleton();
+            container.Register<IActionScheduler, TimerBasedActionScheduler>();
+
+            container.Register<GameController, GameController>().AsSingleton();
         }
     }
 }

@@ -10,11 +10,13 @@ namespace Game.WebApp.Api
 {
     public class OutgoingPlayerChannel : IPlayerCommunicationChannel
     {
-        public const string OPPONENT_ID_KEY = "id";
-        public const string OPPONENT_NAME_KEY = "name";
+        public const string OPPONENT_ID_KEY = "opponentId";
+        public const string OPPONENT_NAME_KEY = "opponentName";
+        public const string NUM_OF_TURNS_KEY = "numberOfTurns";
+        public const string DYNAMITE_LIMIT_KEY = "dynamiteLimit";
 
         private readonly Uri _playerEndpoint;
-        private WebClient _webAccess;
+        private readonly WebClient _webAccess;
 
         public OutgoingPlayerChannel(Uri playerEndpoint)
         {
@@ -24,19 +26,19 @@ namespace Game.WebApp.Api
 
         #region IPlayerCommunicationChannel Members
 
-        public void InformOfGameAgainst(TournamentPlayer opponent)
+        public void InformOfGameAgainst(TournamentPlayer opponent, int numberOfTurns, int dynamiteLimit)
         {
-            _webAccess.UploadValues("/inform", new NameValueCollection { { OPPONENT_ID_KEY, opponent.Id }, { OPPONENT_NAME_KEY, opponent.Name } });
+            _webAccess.UploadValues("/start", new NameValueCollection { { OPPONENT_ID_KEY, opponent.Id }, { OPPONENT_NAME_KEY, opponent.Name }, { NUM_OF_TURNS_KEY, numberOfTurns.ToString() }, { DYNAMITE_LIMIT_KEY, dynamiteLimit.ToString() } });
         }
 
         public Task<Move> RequestMove()
         {
-            return _webAccess.DownloadStringTaskAsync("/getmove").ContinueWith<Move>(MapResponseToMove);
+            return _webAccess.DownloadStringTaskAsync("/move").ContinueWith<Move>(MapResponseToMove);
         }
 
         private Move MapResponseToMove(Task<string> obj)
         {
-            Enum.Parse(typeof(Move), (obj.Result ?? "").Trim(), true);
+            return (Move)Enum.Parse(typeof(Move), (obj.Result ?? "").Trim(), true);
         }
 
         #endregion

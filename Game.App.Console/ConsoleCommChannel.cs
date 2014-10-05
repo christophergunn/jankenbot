@@ -13,9 +13,9 @@ namespace Game.App.Console
             _playerCallsign = player.Name;
         }
 
-        public void InformOfGameAgainst(TournamentPlayer opponent)
+        public void InformOfGameAgainst(TournamentPlayer opponent, int numberOfTurns, int dynamiteLimit)
         {
-            ConsoleUi.WriteTextLine(CreatePlayerPrefix() + "your opponent for this round is " + opponent.Name + ".");
+            ConsoleUi.WriteTextLine(CreatePlayerPrefix() + "your opponent for this round is " + opponent.Name + ". Number of turns is " + numberOfTurns + ", and dynamite limit is " + dynamiteLimit + ".");
         }
 
         private Dictionary<char, Move> _charToMoveMapping = new Dictionary<char, Move>

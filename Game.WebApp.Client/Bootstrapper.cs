@@ -13,7 +13,8 @@ namespace Game.WebApp.Client
         protected override void ConfigureApplicationContainer(Nancy.TinyIoc.TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-            container.Register(typeof(ClientConfig), (ioc, npo) => new ClientConfig { Id = "1", Name = "Mr Bob", ServerUrl = "http://localhost/Game.WebApp"});
+
+            container.Register(typeof(ClientConfig), (ioc, npo) => AppConfigReader.RetrieveClientConfig()).AsSingleton();
         }  
     }
 }

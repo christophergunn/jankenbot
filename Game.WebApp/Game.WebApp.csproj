@@ -69,16 +69,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BotCommunicationChannel.cs" />
     <Compile Include="Api\IncomingInterface.cs" />
+    <Compile Include="Api\IOutgoingPlayerChannelFactory.cs" />
     <Compile Include="Api\OutgoingPlayerChannel.cs" />
+    <Compile Include="Api\OutgoingPlayerChannelFactory.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configuration\ApplicationConfiguration.cs" />
     <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Controller\GameController.cs" />
     <Compile Include="Controller\IActionScheduler.cs" />
-    <Compile Include="Controller\IOutgoingPlayerChannelFactory.cs" />
     <Compile Include="Logging\UnhandledExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimerBasedActionScheduler.cs" />
+    <Compile Include="TournamentPersistence.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -90,6 +94,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Game.HouseBots\Game.HouseBots.csproj">
+      <Project>{a8c5d535-de6d-4b3f-937d-408fd97fabdd}</Project>
+      <Name>Game.HouseBots</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{857b692e-6bbb-4ad5-9050-e7a07986e86f}</Project>
       <Name>Game</Name>

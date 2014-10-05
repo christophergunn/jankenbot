@@ -139,8 +139,8 @@ namespace Game
         {
             foreach (var match in _matchMaker.Matches)
             {
-                _playerIdToCommsMapping[match.Item1.Id].InformOfGameAgainst(match.Item2);
-                _playerIdToCommsMapping[match.Item2.Id].InformOfGameAgainst(match.Item1);
+                _playerIdToCommsMapping[match.Item1.Id].InformOfGameAgainst(match.Item2, Config.TurnsPerRound, Config.DynamiteLimit ?? 0);
+                _playerIdToCommsMapping[match.Item2.Id].InformOfGameAgainst(match.Item1, Config.TurnsPerRound, Config.DynamiteLimit ?? 0);
             }
         }
 

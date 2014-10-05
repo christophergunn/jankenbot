@@ -16,7 +16,7 @@ namespace Game.WebApp.Client.Tests
             string id = "123456789";
             string name = "Mr Bob";
 
-            Client c = new Client(new ClientConfig { ServerUrl = "http://localhost/Game.WebApp", Id = id, Name = name });
+            var c = new ClientHttpInterface(new ClientConfig("http://localhost/Game.WebApp", id, name));
 
             c.Register();
 
