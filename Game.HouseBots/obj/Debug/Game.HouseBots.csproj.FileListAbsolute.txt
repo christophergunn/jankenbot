@@ -1,0 +1,7 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\bin\Debug\Game.HouseBots.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\bin\Debug\Game.HouseBots.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\bin\Debug\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\bin\Debug\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\obj\Debug\Game.HouseBots.csprojResolveAssemblyReference.cache
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\obj\Debug\Game.HouseBots.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.HouseBots\obj\Debug\Game.HouseBots.pdb

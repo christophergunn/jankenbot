@@ -1,0 +1,11 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\Game.Tests.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\Game.Tests.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\NSubstitute.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\nunit.framework.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\NSubstitute.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\bin\Debug\nunit.framework.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\obj\Debug\Game.Tests.csprojResolveAssemblyReference.cache
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\obj\Debug\Game.Tests.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.Tests\obj\Debug\Game.Tests.pdb

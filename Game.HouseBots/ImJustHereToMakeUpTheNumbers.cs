@@ -1,4 +1,6 @@
-﻿namespace Game.HouseBots
+﻿using Game.HouseBots.Api;
+
+namespace Game.HouseBots
 {
     public class ImJustHereToMakeUpTheNumbers : IBotAi
     {

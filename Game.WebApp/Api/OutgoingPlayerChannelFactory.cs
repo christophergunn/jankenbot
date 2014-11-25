@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.HouseBots;
+using Game.HouseBots.Api;
 
 namespace Game.WebApp.Api
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Game.HouseBots;
+using Game.HouseBots.Api;
 using Game.WebApp.Api;
 using Game.WebApp.Configuration;
 
@@ -12,7 +13,7 @@ namespace Game.WebApp.Controller
         private readonly IApplicationConfiguration _applicationConfiguration;
         private readonly IActionScheduler _actionScheduler;
 
-        private readonly Type[] _validBotTypes = new[] { typeof(HouseBots.EdwardScissorHands) };
+        private readonly Type[] _validBotTypes = new[] { typeof(HouseBots.EdwardScissorHands), typeof(HouseBots.Randomer) };
 
         public bool IsRunning 
         {
@@ -41,7 +42,7 @@ namespace Game.WebApp.Controller
             IApplicationConfiguration applicationConfiguration,
             IActionScheduler actionScheduler)
         {
-            Tournament = tournamentPersistence.GetController();
+            Tournament = tournamentPersistence.LoadTournament();
             _channelFactory = channelFactory;
             _applicationConfiguration = applicationConfiguration;
             _actionScheduler = actionScheduler;
@@ -49,6 +50,9 @@ namespace Game.WebApp.Controller
 
         public void Register(string id, string name, string ip)
         {
+            if (CurrentState == State.NotStarted || CurrentState == State.Complete)
+                throw new InvalidOperationException("Invalid state for player registration.");
+
             Tournament.RegisterPlayer(
                 new TournamentPlayer(id, name) { Comms = _channelFactory.CreateFromHttpEndpoint(ip) });
         }

@@ -1,0 +1,15 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.WebApp.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.WebApp.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Nancy.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Nancy.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\obj\Debug\Game.WebApp.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\obj\Debug\Game.WebApp.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\log4net.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\log4net.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\obj\Debug\Game.WebApp.csprojResolveAssemblyReference.cache
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.HouseBots.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\bin\Game.HouseBots.pdb

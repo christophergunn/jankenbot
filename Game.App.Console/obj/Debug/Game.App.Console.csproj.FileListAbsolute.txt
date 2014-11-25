@@ -1,0 +1,8 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\obj\Debug\Game.App.Console.csprojResolveAssemblyReference.cache
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\bin\Debug\Game.App.Console.exe.config
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\bin\Debug\Game.App.Console.exe
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\bin\Debug\Game.App.Console.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\bin\Debug\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\bin\Debug\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\obj\Debug\Game.App.Console.exe
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.App.Console\obj\Debug\Game.App.Console.pdb

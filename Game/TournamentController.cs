@@ -6,7 +6,7 @@ using Game.Utilities;
 
 namespace Game
 {
-    public class TournamentController
+    public class TournamentController : ITournament
     {
         private readonly IMatchMaker _matchMaker;
         private readonly Dictionary<string, TournamentPlayer> _playerIdToPlayerMap = new Dictionary<string, TournamentPlayer>();

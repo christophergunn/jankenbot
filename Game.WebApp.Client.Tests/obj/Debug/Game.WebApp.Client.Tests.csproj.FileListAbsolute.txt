@@ -1,0 +1,13 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Game.WebApp.Client.Tests.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Game.WebApp.Client.Tests.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\nunit.framework.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Game.WebApp.Client.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\nunit.framework.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\obj\Debug\Game.WebApp.Client.Tests.csprojResolveAssemblyReference.cache
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\obj\Debug\Game.WebApp.Client.Tests.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\obj\Debug\Game.WebApp.Client.Tests.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Game.WebApp.Client.exe
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Nancy.Hosting.Self.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Nancy.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Nancy.Hosting.Self.xml
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp.Client.Tests\bin\Debug\Nancy.xml

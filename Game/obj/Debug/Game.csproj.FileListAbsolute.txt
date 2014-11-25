@@ -1,0 +1,5 @@
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game\bin\Debug\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game\bin\Debug\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game\obj\Debug\Game.dll
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game\obj\Debug\Game.pdb
+C:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache

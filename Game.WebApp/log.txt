@@ -3,3 +3,16 @@
 2014-07-23 21:57:44,301 [42] DEBUG Game.WebApp.Api.GamePlay [(null)] - Registered via POST with id: 123456789, name: Mr Bob, from IP: ::1.
 2014-08-05 20:16:54,255 [7] DEBUG Game.WebApp.Api.GamePlay [(null)] - Registered via POST with form data. ID: 123456789, name: Mr Bob, from IP: ::1.
 2014-08-09 18:06:21,620 [11] DEBUG Game.WebApp.Api.GamePlay [(null)] - Registered via POST with form data. ID: 123456789, name: Mr Bob, from IP: ::1.
+2014-10-05 14:58:54,593 [6] DEBUG Game.WebApp.Api.IncomingInterface [(null)] - Registered via POST with form data. ID: 123456789, name: Mr Bob, from IP: ::1.
+2014-10-05 14:58:54,653 [6] ERROR Game.WebApp.Logging.UnhandledExceptionLogger [(null)] - Unhandled error
+Nancy.RequestExecutionException: Oh noes! ---> System.UriFormatException: Invalid URI: The hostname could not be parsed.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   at Game.WebApp.Api.OutgoingPlayerChannelFactory.CreateFromHttpEndpoint(String ip) in c:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\Api\OutgoingPlayerChannelFactory.cs:line 10
+   at Game.WebApp.Controller.GameController.Register(String id, String name, String ip) in c:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\Controller\GameController.cs:line 52
+   at System.Dynamic.UpdateDelegates.UpdateAndExecuteVoid4[T0,T1,T2,T3](CallSite site, T0 arg0, T1 arg1, T2 arg2, T3 arg3)
+   at Game.WebApp.Api.IncomingInterface.<.ctor>b__27(Object o) in c:\Users\gunnch\Documents\Visual Studio 2012\Projects\Game\Game.WebApp\Api\IncomingInterface.cs:line 40
+   at CallSite.Target(Closure , CallSite , Func`2 , Object )
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)
+   at Nancy.Routing.Route.<>c__DisplayClass4.<Wrap>b__3(Object parameters, CancellationToken context)
+   --- End of inner exception stack trace ---
+   at Nancy.NancyEngine.InvokeOnErrorHook(NancyContext context, ErrorPipeline pipeline, Exception ex)
