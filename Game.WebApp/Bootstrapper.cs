@@ -28,7 +28,7 @@ namespace Game.WebApp
             container.Register<IApplicationConfiguration, ApplicationConfiguration>().AsSingleton();
             container.Register<IActionScheduler, TimerBasedActionScheduler>();
 
-            container.Register<GameController, GameController>().AsSingleton();
+            container.Register<EventCoOrdinator, EventCoOrdinator>().AsSingleton();
         }
     }
 }

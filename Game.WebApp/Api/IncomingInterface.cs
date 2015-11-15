@@ -7,9 +7,9 @@ namespace Game.WebApp.Api
     public class IncomingInterface : NancyModule
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(IncomingInterface));
-        private readonly GameController _controller;
+        private readonly EventCoOrdinator _controller;
 
-        public IncomingInterface(GameController controller)
+        public IncomingInterface(EventCoOrdinator controller)
         {
             _controller = controller;
 
@@ -17,28 +17,33 @@ namespace Game.WebApp.Api
 
             Get["/start"] = _ =>
                 {
+                    if (_controller.IsRunning)
+                    {
+                        _logger.DebugFormat("Start game called, however it was already running - returning NotAcceptable (406).");
+                        return HttpStatusCode.NotAcceptable;
+                    }
                     _logger.DebugFormat("Start game called.");
-                    if (_controller.IsRunning) 
-                        return "Game already started.";
                     _controller.Start();
-                    return "Game started.";
+                    return HttpStatusCode.OK;
                 };
 
             Get["/register/{id}/{name}"] = o =>
                 {
                     _logger.DebugFormat("Registered via GET with URL data. ID: " + o.id + ", name: " + o.name + ", from IP: " + Request.UserHostAddress + ".");
-                    return "Registered " + o.id + o.name;
+                    _controller.Register(Request.Form.id, Request.Form.name, Request.UserHostAddress);
+                    return HttpStatusCode.Created;
                 }; 
             Post["/register/{id}/{name}"] = o =>
                 {
                     _logger.DebugFormat("Registered via POST with URL data. ID: " + o.id + ", name: " + o.name + ", from IP: " + Request.UserHostAddress + ".");
-                    return HttpStatusCode.OK;
+                    _controller.Register(Request.Form.id, Request.Form.name, Request.UserHostAddress);
+                    return HttpStatusCode.Created;
                 };
             Post["/register"] = o =>
                 {
                     _logger.DebugFormat("Registered via POST with form data. ID: " + Request.Form.id + ", name: " + Request.Form.name + ", from IP: " + Request.UserHostAddress + ".");
                     _controller.Register(Request.Form.id, Request.Form.name, Request.UserHostAddress);
-                    return HttpStatusCode.OK;
+                    return HttpStatusCode.Created;
                 };
 
         }

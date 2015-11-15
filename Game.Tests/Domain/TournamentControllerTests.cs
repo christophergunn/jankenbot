@@ -171,10 +171,10 @@ namespace Game.Tests.Domain
             var registeredPlayers = SetupAndBeginASixPlayerRound();
 
             PlayOneRoundWithWinners(registeredPlayers[0]);
-            Assert.That(registeredPlayers[0].Score.WonRounds, Is.EqualTo(0));
+            Assert.That(registeredPlayers[0].Score.WonGames, Is.EqualTo(0));
 
             PlayOneRoundWithWinners(registeredPlayers[1], registeredPlayers[2]);
-            Assert.That(registeredPlayers[0].Score.WonRounds, Is.EqualTo(1));
+            Assert.That(registeredPlayers[0].Score.WonGames, Is.EqualTo(1));
         }
 
         private void PlayOneRoundWithWinners(params TournamentPlayer[] winningPlayers)

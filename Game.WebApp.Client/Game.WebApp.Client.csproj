@@ -50,9 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ClientHttpInterface.cs" />
+    <Compile Include="ClientIncomingHttpInterface.cs" />
     <Compile Include="Configuration\AppConfigReader.cs" />
     <Compile Include="Configuration\ClientConfig.cs" />
+    <Compile Include="Domain\Client.cs" />
+    <Compile Include="Domain\ClientLogic.cs" />
+    <Compile Include="GameServerRequests\GameServerRequest.cs" />
+    <Compile Include="GameServerRequests\RegistrationRequest.cs" />
+    <Compile Include="GameServerRequests\StartGameRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

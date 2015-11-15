@@ -9,13 +9,13 @@ namespace Game.WebApp.Tests
     [TestFixture]
     public class GameControllerTests
     {
-        private WebController.GameController _controller;
-        private TournamentController _tournament;
+        private WebController.EventCoOrdinator _controller;
+        private ITournament _tournament;
 
         [SetUp]
-        private void Setup()
+        public void Setup()
         {
-            _tournament = Substitute.For<TournamentController>();
+            _tournament = Substitute.For<ITournament>();
             var per = Substitute.For<ITournamentPersistence>();
             per.LoadTournament().Returns(_tournament);
 
@@ -23,20 +23,26 @@ namespace Game.WebApp.Tests
             var applicationConfiguration = Substitute.For<IApplicationConfiguration>();
             var actionScheduler = Substitute.For<WebController.IActionScheduler>();
             
-            _controller = new WebController.GameController(per, channelFactory, applicationConfiguration, actionScheduler);
+            _controller = new WebController.EventCoOrdinator(per, channelFactory, applicationConfiguration, actionScheduler);
         }
 
         [Test]
         public void Start_ShouldRegisterAtLeastOneHouseBot()
         {
+            var counter = 0;
+            _tournament
+                .When(x => x.RegisterPlayer(Arg.Any<TournamentPlayer>()))
+                .Do(x => counter++);
+
             _controller.Start();
 
-            Assert.That(_controller.Tournament.Players.Count(), Is.GreaterThan(0));
+            Assert.That(counter, Is.GreaterThan(0));
         }
 
         [Test]
-        public void Register_ShouldDelegateToTournament_IfInvalidState()
+        public void Register_AfterStarting_ShouldDelegateToTournament()
         {
+            _controller.Start();
             _controller.Register("id", "name", "ip");
 
             _tournament.ReceivedWithAnyArgs().RegisterPlayer(null);

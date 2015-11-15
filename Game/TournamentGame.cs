@@ -19,11 +19,11 @@
         {
             if (PlayerOne.Id == id1)
             {
-                RecordMoves(move1, move2);
+                PlayMoves(move1, move2);
             }
             else
             {
-                RecordMoves(move2, move1);
+                PlayMoves(move2, move1);
             }
         }
     }

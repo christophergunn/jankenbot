@@ -14,7 +14,11 @@ namespace Game.WebApp.Client
         {
             base.ConfigureApplicationContainer(container);
 
-            container.Register(typeof(ClientConfig), (ioc, npo) => AppConfigReader.RetrieveClientConfig()).AsSingleton();
+            var config = AppConfigReader.RetrieveClientConfig();
+            var client = new Domain.Client(config.Id, config.Name);
+
+            container.Register(config);
+            container.Register(client);
         }  
     }
 }

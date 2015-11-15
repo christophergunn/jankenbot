@@ -76,7 +76,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configuration\ApplicationConfiguration.cs" />
     <Compile Include="Configuration\IApplicationConfiguration.cs" />
-    <Compile Include="Controller\GameController.cs" />
+    <Compile Include="Controller\EventCoOrdinator.cs" />
     <Compile Include="Controller\IActionScheduler.cs" />
     <Compile Include="Logging\UnhandledExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

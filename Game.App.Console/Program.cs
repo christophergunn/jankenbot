@@ -77,7 +77,7 @@ namespace Game.App.Console
 
         private static void PrintHeadlineScore()
         {
-            var winner = _tournament.Players.OrderByDescending(tp => tp.Score.WonRounds).FirstOrDefault();
+            var winner = _tournament.Players.OrderByDescending(tp => tp.Score.WonGames).FirstOrDefault();
             ConsoleUi.WriteTextLine(new string('=', 32));
             ConsoleUi.WriteTextLine("= WINNER: " + winner.Name + new string(' ', 21 - winner.Name.Length) + "=");
             ConsoleUi.WriteTextLine(new string('=', 32));
@@ -87,9 +87,9 @@ namespace Game.App.Console
         private static void PrintBreakdown()
         {
             ConsoleUi.WriteTextLine("Breakdown:");
-            foreach (var player in _tournament.Players.OrderByDescending(tp => tp.Score.WonRounds))
+            foreach (var player in _tournament.Players.OrderByDescending(tp => tp.Score.WonGames))
             {
-                ConsoleUi.WriteTextLine(string.Format("Player {0}: {1}/{2}/{3}", player.Name, player.Score.WonRounds, player.Score.DrawnRounds, player.Score.LostRounds));
+                ConsoleUi.WriteTextLine(string.Format("Player {0}: {1}/{2}/{3}", player.Name, player.Score.WonGames, player.Score.DrawnGames, player.Score.LostGames));
             }
         }
     }

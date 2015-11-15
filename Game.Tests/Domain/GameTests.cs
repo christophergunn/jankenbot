@@ -11,6 +11,7 @@ namespace Game.Tests.Domain
         public void PerTestSetup()
         {
             _game = new Game();
+            _game.SetRoundLimit(99);
         }
 
         [Test]
@@ -24,9 +25,9 @@ namespace Game.Tests.Domain
         [TestCase(Move.Scissors)]
         public void GivenSameMoves_NeitherPlayerWins(Move playerOneAndTwoMove)
         {
-            _game.RecordMoves(playerOneAndTwoMove, playerOneAndTwoMove);
+            _game.PlayMoves(playerOneAndTwoMove, playerOneAndTwoMove);
 
-            Assert.That(_game.LastResult, Is.EqualTo(RoundResult.Neither));
+            Assert.That(_game.LastResult, Is.EqualTo(RoundResult.NeitherWon));
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace Game.Tests.Domain
         [TestCase(Move.Scissors, Move.Paper, RoundResult.PlayerOneWins)]
         public void GivenStandardMoves_CanDetermineWinner(Move playerOneMove, Move playerTwoMove, RoundResult expectedResult)
         {
-            _game.RecordMoves(playerOneMove, playerTwoMove);
+            _game.PlayMoves(playerOneMove, playerTwoMove);
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
@@ -53,7 +54,7 @@ namespace Game.Tests.Domain
         public void GivenDynamite_ItBeatsAllStandardMoves(Move playerOneMove, Move playerTwoMove,
                                                           RoundResult expectedResult)
         {
-            _game.RecordMoves(playerOneMove, playerTwoMove);
+            _game.PlayMoves(playerOneMove, playerTwoMove);
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
@@ -71,7 +72,7 @@ namespace Game.Tests.Domain
         public void GivenWaterbomb_ItBeatsNothingExceptDynamite(Move playerOneMove, Move playerTwoMove,
                                                           RoundResult expectedResult)
         {
-            _game.RecordMoves(playerOneMove, playerTwoMove);
+            _game.PlayMoves(playerOneMove, playerTwoMove);
 
             Assert.That(_game.LastResult, Is.EqualTo(expectedResult));
         }
@@ -79,7 +80,7 @@ namespace Game.Tests.Domain
         [Test]
         public void GivenPlayerOneWins_ScoreIsIncrementedByOne()
         {
-            _game.RecordMoves(Move.Waterbomb, Move.Dynamite);
+            _game.PlayMoves(Move.Waterbomb, Move.Dynamite);
 
             Assert.That(_game.PlayerOneScore, Is.EqualTo(1));
         }
@@ -87,7 +88,7 @@ namespace Game.Tests.Domain
         [Test]
         public void GivenPlayerTwoWins_ScoreIsIncrementedByOne()
         {
-            _game.RecordMoves(Move.Rock, Move.Paper);
+            _game.PlayMoves(Move.Rock, Move.Paper);
 
             Assert.That(_game.PlayerTwoScore, Is.EqualTo(1));
         }
@@ -97,7 +98,7 @@ namespace Game.Tests.Domain
         {
             int p1 = _game.PlayerOneScore, p2 = _game.PlayerTwoScore;
 
-            _game.RecordMoves(Move.Rock, Move.Rock);
+            _game.PlayMoves(Move.Rock, Move.Rock);
 
             AssertScoreLine(p1, p2);
         }
@@ -105,8 +106,8 @@ namespace Game.Tests.Domain
         [Test]
         public void GivenADrawThePointsRollover()
         {
-            _game.RecordMoves(Move.Rock, Move.Rock);
-            _game.RecordMoves(Move.Rock, Move.Paper);
+            _game.PlayMoves(Move.Rock, Move.Rock);
+            _game.PlayMoves(Move.Rock, Move.Paper);
 
             AssertScoreLine(0, 2);
         }
@@ -116,9 +117,9 @@ namespace Game.Tests.Domain
         {
             _game.SetRoundLimit(5);
 
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
             Assert.That(!_game.IsFinished);
             Assert.That(_game.FinalState, Is.Null);            
         }
@@ -128,11 +129,11 @@ namespace Game.Tests.Domain
         {
             _game.SetRoundLimit(5);
 
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
 
             AssertFinalScores(5, 0, RoundResult.PlayerOneWins);
         }
@@ -142,14 +143,14 @@ namespace Game.Tests.Domain
         {
             _game.SetRoundLimit(2);
 
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
 
             AssertFinalScores(2, 0, RoundResult.PlayerOneWins);
 
-            _game.RecordMoves(Move.Rock, Move.Dynamite);
-            _game.RecordMoves(Move.Rock, Move.Dynamite);
-            _game.RecordMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
 
             AssertFinalScores(2, 0, RoundResult.PlayerOneWins);
         }
@@ -168,11 +169,11 @@ namespace Game.Tests.Domain
             Assert.That(_game.PlayerOneRemainingDynamite, Is.EqualTo(10));
             Assert.That(_game.PlayerTwoRemainingDynamite, Is.EqualTo(10));
 
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
             Assert.That(_game.PlayerOneRemainingDynamite, Is.EqualTo(9));
 
-            _game.RecordMoves(Move.Rock, Move.Dynamite);
-            _game.RecordMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
+            _game.PlayMoves(Move.Rock, Move.Dynamite);
             Assert.That(_game.PlayerTwoRemainingDynamite, Is.EqualTo(8));
         }
 
@@ -181,9 +182,9 @@ namespace Game.Tests.Domain
         {
             _game.SetDynamiteLimit(2);
 
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
-            _game.RecordMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
+            _game.PlayMoves(Move.Dynamite, Move.Rock);
 
             Assert.That(_game.LastResult, Is.EqualTo(RoundResult.PlayerTwoWins));
             AssertScoreLine(2, 1);

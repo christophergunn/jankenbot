@@ -108,20 +108,20 @@ namespace Game
 
         private void SetPlayerScoresFromGame(TournamentGame game)
         {
-            if (game.PlayerOneScore > game.PlayerTwoScore)
+            if (game.FinalState.Value == RoundResult.NeitherWon)
             {
-                game.PlayerOne.Score.WonRounds++;
-                game.PlayerTwo.Score.LostRounds++;
-            }
-            else if (game.PlayerTwoScore > game.PlayerOneScore)
+                game.PlayerOne.Score.DrawnGames++;
+                game.PlayerTwo.Score.DrawnGames++;
+            } 
+            else if (game.FinalState.Value == RoundResult.PlayerOneWins)
             {
-                game.PlayerOne.Score.LostRounds++;
-                game.PlayerTwo.Score.WonRounds++;
-            }
-            else
+                game.PlayerOne.Score.WonGames++;
+                game.PlayerTwo.Score.LostGames++;
+            } 
+            else if (game.FinalState.Value == RoundResult.PlayerTwoWins)
             {
-                game.PlayerOne.Score.DrawnRounds++;
-                game.PlayerTwo.Score.DrawnRounds++;
+                game.PlayerOne.Score.LostGames++;
+                game.PlayerTwo.Score.WonGames++;
             }
         }
 

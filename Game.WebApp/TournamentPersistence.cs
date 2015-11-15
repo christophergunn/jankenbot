@@ -4,19 +4,19 @@ namespace Game.WebApp
 {
     public class TournamentPersistence : ITournamentPersistence
     {
-        public TournamentController LoadTournament()
+        public ITournament LoadTournament()
         {
             return new TournamentController(new SimplePartitioningMatchMaker());
         }
 
-        public void SaveTournament(TournamentController tournament)
+        public void SaveTournament(ITournament tournament)
         {
         }
     }
 
     public interface ITournamentPersistence
     {
-        TournamentController LoadTournament();
-        void SaveTournament(TournamentController tournament);
+        ITournament LoadTournament();
+        void SaveTournament(ITournament tournament);
     }
 }
